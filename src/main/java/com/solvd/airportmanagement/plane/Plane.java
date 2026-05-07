@@ -8,18 +8,18 @@ import java.util.List;
 
 public class Plane {
 
-    private int id;
+    private long id;
     private String model;
     private int numberOfEngines;
     private int numberOfSeats;
     private LunchMenu lunchMenu;
     private List<Guest> guests = new ArrayList<>();
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

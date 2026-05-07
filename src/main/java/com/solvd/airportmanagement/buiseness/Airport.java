@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Airport {
 
-    private int id;
+    private long id;
     private String airportName;
     private String airportLocation;
 
@@ -16,11 +16,11 @@ public class Airport {
     private List<Employee> employees = new ArrayList<>();
     private List<Booking> bookings = new ArrayList<>();
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

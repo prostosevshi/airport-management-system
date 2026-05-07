@@ -4,17 +4,17 @@ import java.time.LocalDate;
 
 public class CardPayment {
 
-    private int id;
+    private long id;
     private int cardNumber;
     private int paymentNumber;
     private int paymentAmount;
     private LocalDate paymentDate;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -2,16 +2,16 @@ package com.solvd.airportmanagement.person;
 
 public class Employee {
 
-    private int id;
+    private long id;
     private String name;
     private int age;
     private int salary;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

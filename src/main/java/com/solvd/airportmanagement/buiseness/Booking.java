@@ -7,17 +7,17 @@ import java.time.LocalDate;
 
 public class Booking {
 
-    private int id;
+    private long id;
     private int bookingNumber;
     private LocalDate bookingDate;
     private Guest guest;
     private CardPayment payment;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

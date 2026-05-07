@@ -2,16 +2,23 @@ package com.solvd.airportmanagement.menu.food;
 
 import java.math.BigDecimal;
 
-public abstract class Product {
+public class Product {
 
+    private int id;
     private String name;
     private Integer calories;
     private BigDecimal price;
     private boolean fresh;
 
-    protected abstract void checkFreshness();
-
     //getters & setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     protected String getName() {
         return name;
     }

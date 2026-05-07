@@ -1,11 +1,35 @@
 package com.solvd.airportmanagement.person;
 
-import com.solvd.airportmanagement.payment.Payment;
+public class Guest{
 
-public class Guest extends Person{
-
+    private int id;
+    private String name;
+    private int age;
     private String passportNumber;
-    private Payment payment;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public String getPassportNumber() {
         return passportNumber;
@@ -13,13 +37,5 @@ public class Guest extends Person{
 
     public void setPassportNumber(String passportNumber) {
         this.passportNumber = passportNumber;
-    }
-
-    public Payment getPayment() {
-        return payment;
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
     }
 }

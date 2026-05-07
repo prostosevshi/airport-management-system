@@ -4,14 +4,24 @@ import com.solvd.airportmanagement.menu.LunchMenu;
 import com.solvd.airportmanagement.person.Guest;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public abstract class Plane {
+public class Plane {
 
-    protected String model;
-    protected int numberOfEngines;
-    protected int numberOfSeats;
-    protected LunchMenu lunchMenu;
-    protected ArrayList<Guest> guests = new ArrayList<>();
+    private int id;
+    private String model;
+    private int numberOfEngines;
+    private int numberOfSeats;
+    private LunchMenu lunchMenu;
+    private List<Guest> guests = new ArrayList<>();
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getModel() {
         return model;
@@ -45,11 +55,11 @@ public abstract class Plane {
         this.lunchMenu = lunchMenu;
     }
 
-    public ArrayList<Guest> getGuests() {
+    public List<Guest> getGuests() {
         return guests;
     }
 
-    public void setGuests(ArrayList<Guest> guests) {
+    public void setGuests(List<Guest> guests) {
         this.guests = guests;
     }
 }

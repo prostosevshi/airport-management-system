@@ -1,14 +1,40 @@
 package com.solvd.airportmanagement.buiseness;
 
+import com.solvd.airportmanagement.payment.CardPayment;
+import com.solvd.airportmanagement.person.Guest;
+
 import java.time.LocalDate;
 
 public class Booking {
 
+    private int id;
     private int bookingNumber;
     private LocalDate bookingDate;
+    private Guest guest;
+    private CardPayment payment;
 
-    public void bookTicket() {
-        System.out.println("Ticket is booked");
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Guest getGuest() {
+        return guest;
+    }
+
+    public void setGuest(Guest guest) {
+        this.guest = guest;
+    }
+
+    public CardPayment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(CardPayment payment) {
+        this.payment = payment;
     }
 
     public int getBookingNumber() {

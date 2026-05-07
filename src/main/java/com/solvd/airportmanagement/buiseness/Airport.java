@@ -4,22 +4,32 @@ import com.solvd.airportmanagement.person.Employee;
 import com.solvd.airportmanagement.plane.Plane;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Airport {
 
+    private int id;
     private String airportName;
     private String airportLocation;
 
-    private ArrayList<Plane> planes = new ArrayList<>();
-    private ArrayList<Employee> employees = new ArrayList<>();
-    private ArrayList<Booking> bookings = new ArrayList<>();
+    private List<Plane> planes = new ArrayList<>();
+    private List<Employee> employees = new ArrayList<>();
+    private List<Booking> bookings = new ArrayList<>();
 
-    public ArrayList<Booking> getBookings() {
-        return bookings;
+    public int getId() {
+        return id;
     }
 
-    public void setBookings(ArrayList<Booking> bookings) {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
     }
 
     public String getAirportName() {
@@ -38,19 +48,19 @@ public class Airport {
         this.airportLocation = airportLocation;
     }
 
-    public ArrayList<Plane> getPlanes() {
+    public List<Plane> getPlanes() {
         return planes;
     }
 
-    public void setPlanes(ArrayList<Plane> planes) {
+    public void setPlanes(List<Plane> planes) {
         this.planes = planes;
     }
 
-    public ArrayList<Employee> getEmployees() {
+    public List<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(ArrayList<Employee> employees) {
+    public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
 }

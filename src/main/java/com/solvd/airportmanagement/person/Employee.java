@@ -1,4 +1,14 @@
 package com.solvd.airportmanagement.person;
 
-public class Employee {
+public class Employee extends Person {
+
+    private int salary;
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
 }

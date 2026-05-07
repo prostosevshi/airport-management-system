@@ -4,11 +4,11 @@ import com.solvd.airportmanagement.menu.food.Product;
 
 import java.util.List;
 
-public class Lunch {
+public class LunchMenu {
 
     private List<Product> products;
 
-    public Lunch(List<Product> products) {
+    public LunchMenu(List<Product> products) {
         this.products = products;
     }
 

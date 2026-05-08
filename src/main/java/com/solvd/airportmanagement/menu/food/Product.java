@@ -4,18 +4,18 @@ import java.math.BigDecimal;
 
 public class Product {
 
-    private long id;
+    private Long id;
     private String name;
     private Integer calories;
     private BigDecimal price;
     private boolean fresh;
 
     //getters & setters
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

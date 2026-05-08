@@ -2,24 +2,22 @@ package com.solvd.airportmanagement.plane;
 
 import com.solvd.airportmanagement.menu.LunchMenu;
 import com.solvd.airportmanagement.person.Guest;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Plane {
 
-    private long id;
+    private Long id;
     private String model;
     private int numberOfEngines;
     private int numberOfSeats;
     private LunchMenu lunchMenu;
-    private List<Guest> guests = new ArrayList<>();
+    private List<Guest> guests;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class LunchMenu {
 
-    private long id;
+    private Long id;
     private List<Product> products;
 
     public LunchMenu(List<Product> products) {
@@ -14,11 +14,11 @@ public class LunchMenu {
     }
 
     //getters & setters
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

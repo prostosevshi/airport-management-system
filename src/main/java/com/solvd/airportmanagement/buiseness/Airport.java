@@ -2,25 +2,23 @@ package com.solvd.airportmanagement.buiseness;
 
 import com.solvd.airportmanagement.person.Employee;
 import com.solvd.airportmanagement.plane.Plane;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Airport {
 
-    private long id;
+    private Long id;
     private String airportName;
     private String airportLocation;
 
-    private List<Plane> planes = new ArrayList<>();
-    private List<Employee> employees = new ArrayList<>();
-    private List<Booking> bookings = new ArrayList<>();
+    private List<Plane> planes;
+    private List<Employee> employees;
+    private List<Booking> bookings;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

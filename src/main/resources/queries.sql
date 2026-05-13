@@ -1,4 +1,4 @@
-3.1)10 statements for updating.
+--3.1)10 statements for updating.
 UPDATE airports
 SET airport_name = 'Batumi Airport'
 WHERE id = 1;
@@ -40,7 +40,7 @@ SET payment_amount = 700
 WHERE id = 2;
 
 
-3.2)10 statements for deletions.
+--3.2)10 statements for deletions.
 DELETE FROM card_payments
 WHERE id = 1;
 
@@ -72,7 +72,7 @@ DELETE FROM card_payments
 WHERE id = 2;
 
 
-3.3)1 big statement to join all tables in the database.
+--3.3)1 big statement to join all tables in the database.
 SELECT
     a.airport_name,
     a.airport_location,
@@ -100,7 +100,7 @@ JOIN card_payments cp
     ON b.id = cp.booking_id;
 
 
-3.4)5 statements with left, right, inner, full joins.
+--3.4)5 statements with left, right, inner, full joins.
 SELECT *
 FROM airports a
 INNER JOIN planes p
@@ -132,7 +132,7 @@ LEFT JOIN products p
 ON lm.id = p.lunch_menu_id;
 
 
-3.5)7 statements with aggregate functions and group by and without having.
+--3.5)7 statements with aggregate functions and group by and without having.
 SELECT airport_id, COUNT(*) AS total_planes
 FROM planes
 GROUP BY airport_id;
@@ -162,7 +162,7 @@ FROM products
 GROUP BY lunch_menu_id;
 
 
-3.6)7 statements with aggregate functions and group by and with having.
+--3.6)7 statements with aggregate functions and group by and with having.
 SELECT airport_id, COUNT(*) AS total_planes
 FROM planes
 GROUP BY airport_id

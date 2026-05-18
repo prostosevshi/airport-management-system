@@ -1,11 +1,11 @@
-package com.solvd.airportmanagement.person;
+package com.solvd.airportmanagement.entity;
 
-public class Employee {
+public class Guest{
 
     private Long id;
     private String name;
     private int age;
-    private int salary;
+    private String passportNumber;
 
     public Long getId() {
         return id;
@@ -31,11 +31,11 @@ public class Employee {
         this.age = age;
     }
 
-    public int getSalary() {
-        return salary;
+    public String getPassportNumber() {
+        return passportNumber;
     }
 
-    public void setSalary(int salary) {
-        this.salary = salary;
+    public void setPassportNumber(String passportNumber) {
+        this.passportNumber = passportNumber;
     }
 }

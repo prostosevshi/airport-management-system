@@ -1,7 +1,4 @@
-package com.solvd.airportmanagement.buiseness;
-
-import com.solvd.airportmanagement.payment.CardPayment;
-import com.solvd.airportmanagement.person.Guest;
+package com.solvd.airportmanagement.entity;
 
 import java.time.LocalDate;
 

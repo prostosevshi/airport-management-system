@@ -1,4 +1,4 @@
-package com.solvd.airportmanagement.menu.food;
+package com.solvd.airportmanagement.entity;
 
 import java.math.BigDecimal;
 

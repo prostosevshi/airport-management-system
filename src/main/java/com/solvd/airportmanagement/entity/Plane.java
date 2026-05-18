@@ -1,7 +1,7 @@
-package com.solvd.airportmanagement.plane;
+package com.solvd.airportmanagement.entity;
 
-import com.solvd.airportmanagement.menu.LunchMenu;
-import com.solvd.airportmanagement.person.Guest;
+import com.solvd.airportmanagement.util.LunchMenu;
+
 import java.util.List;
 
 public class Plane {

@@ -1,4 +1,4 @@
-package com.solvd.airportmanagement.payment;
+package com.solvd.airportmanagement.entity;
 
 import java.time.LocalDate;
 

@@ -1,7 +1,5 @@
-package com.solvd.airportmanagement.buiseness;
+package com.solvd.airportmanagement.entity;
 
-import com.solvd.airportmanagement.person.Employee;
-import com.solvd.airportmanagement.plane.Plane;
 import java.util.List;
 
 public class Airport {

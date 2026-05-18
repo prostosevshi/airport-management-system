@@ -1,6 +1,6 @@
-package com.solvd.airportmanagement.menu;
+package com.solvd.airportmanagement.util;
 
-import com.solvd.airportmanagement.menu.food.Product;
+import com.solvd.airportmanagement.entity.Product;
 
 import java.util.List;
 

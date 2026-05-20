@@ -1,35 +1,18 @@
 package com.solvd.airportmanagement.service;
 
-import com.solvd.airportmanagement.dao.BookingRepository;
 import com.solvd.airportmanagement.entity.Booking;
 
 import java.util.List;
 
-public class BookingService {
+public interface BookingService {
 
-    private final BookingRepository repository;
+    void createBooking(Booking booking);
 
-    public BookingService(BookingRepository repository) {
-        this.repository = repository;
-    }
+    void updateBooking(Booking booking);
 
-    public void createBooking(Booking booking) {
-        repository.create(booking);
-    }
+    void deleteBooking(Long id);
 
-    public void updateBooking(Booking booking) {
-        repository.update(booking);
-    }
+    Booking getBookingById(Long id);
 
-    public void deleteBooking(Long id) {
-        repository.delete(id);
-    }
-
-    public Booking getBookingById(Long id) {
-        return repository.findById(id);
-    }
-
-    public List<Booking> getAllBookings() {
-        return repository.findAll();
-    }
+    List<Booking> getAllBookings();
 }

@@ -19,27 +19,27 @@ public class Product {
         this.id = id;
     }
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
 
-    protected void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    protected Integer getCalories() {
+    public Integer getCalories() {
         return calories;
     }
 
-    protected void setCalories(Integer calories) {
+    public void setCalories(Integer calories) {
         this.calories = calories;
     }
 
-    protected BigDecimal getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    protected void setPrice(BigDecimal price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

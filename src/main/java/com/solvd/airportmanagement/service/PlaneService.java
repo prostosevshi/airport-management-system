@@ -1,35 +1,18 @@
 package com.solvd.airportmanagement.service;
 
-import com.solvd.airportmanagement.dao.PlaneRepository;
 import com.solvd.airportmanagement.entity.Plane;
 
 import java.util.List;
 
-public class PlaneService {
+public interface PlaneService {
 
-    private final PlaneRepository repository;
+    void createPlane(Plane plane);
 
-    public PlaneService(PlaneRepository repository) {
-        this.repository = repository;
-    }
+    void updatePlane(Plane plane);
 
-    public void createPlane(Plane plane) {
-        repository.create(plane);
-    }
+    void deletePlane(Long id);
 
-    public void updatePlane(Plane plane) {
-        repository.update(plane);
-    }
+    Plane getPlaneById(Long id);
 
-    public void deletePlane(Long id) {
-        repository.delete(id);
-    }
-
-    public Plane getPlaneById(Long id) {
-        return repository.findById(id);
-    }
-
-    public List<Plane> getAllPlanes() {
-        return repository.findAll();
-    }
+    List<Plane> getAllPlanes();
 }

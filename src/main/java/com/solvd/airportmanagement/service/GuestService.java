@@ -1,35 +1,18 @@
 package com.solvd.airportmanagement.service;
 
-import com.solvd.airportmanagement.dao.GuestRepository;
 import com.solvd.airportmanagement.entity.Guest;
 
 import java.util.List;
 
-public class GuestService {
+public interface GuestService {
 
-    private final GuestRepository repository;
+    void createGuest(Guest guest);
 
-    public GuestService(GuestRepository repository) {
-        this.repository = repository;
-    }
+    void updateGuest(Guest guest);
 
-    public void createGuest(Guest guest) {
-        repository.create(guest);
-    }
+    void deleteGuest(Long id);
 
-    public void updateGuest(Guest guest) {
-        repository.update(guest);
-    }
+    Guest getGuestById(Long id);
 
-    public void deleteGuest(Long id) {
-        repository.delete(id);
-    }
-
-    public Guest getGuestById(Long id) {
-        return repository.findById(id);
-    }
-
-    public List<Guest> getAllGuests() {
-        return repository.findAll();
-    }
+    List<Guest> getAllGuests();
 }

@@ -1,35 +1,18 @@
 package com.solvd.airportmanagement.service;
 
-import com.solvd.airportmanagement.dao.EmployeeRepository;
 import com.solvd.airportmanagement.entity.Employee;
 
 import java.util.List;
 
-public class EmployeeService {
+public interface EmployeeService {
 
-    private final EmployeeRepository repository;
+    void createEmployee(Employee employee);
 
-    public EmployeeService(EmployeeRepository repository) {
-        this.repository = repository;
-    }
+    void updateEmployee(Employee employee);
 
-    public void createEmployee(Employee employee) {
-        repository.create(employee);
-    }
+    void deleteEmployee(Long id);
 
-    public void updateEmployee(Employee employee) {
-        repository.update(employee);
-    }
+    Employee getEmployeeById(Long id);
 
-    public void deleteEmployee(Long id) {
-        repository.delete(id);
-    }
-
-    public Employee getEmployeeById(Long id) {
-        return repository.findById(id);
-    }
-
-    public List<Employee> getAllEmployees() {
-        return repository.findAll();
-    }
+    List<Employee> getAllEmployees();
 }

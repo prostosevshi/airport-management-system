@@ -1,6 +1,4 @@
-package com.solvd.airportmanagement.util;
-
-import com.solvd.airportmanagement.entity.Product;
+package com.solvd.airportmanagement.entity;
 
 import java.util.List;
 

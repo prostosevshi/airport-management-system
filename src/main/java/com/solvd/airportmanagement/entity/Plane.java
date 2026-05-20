@@ -1,7 +1,5 @@
 package com.solvd.airportmanagement.entity;
 
-import com.solvd.airportmanagement.util.LunchMenu;
-
 import java.util.List;
 
 public class Plane {

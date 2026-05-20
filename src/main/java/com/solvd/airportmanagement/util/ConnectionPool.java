@@ -1,27 +1,38 @@
 package com.solvd.airportmanagement.util;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
 
-    private static Connection connection;
+    private static volatile ConnectionPool instance;
 
-    public static Connection getConnection() {
-        if (connection == null) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
+    private final BlockingQueue<Connection> pool;
 
-                connection = DriverManager.getConnection(
-                        ConfigLoader.getUrl(),
-                        ConfigLoader.getUsername(),
-                        ConfigLoader.getPassword()
-                );
+    private ConnectionPool(int size) {
+        pool = new ArrayBlockingQueue<>(size);
 
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        for (int i = 0; i < size; i++) {
+            pool.add(new Connection(i));
+        }
+    }
+
+    public static ConnectionPool getInstance() {
+        if (instance == null) {
+            synchronized (ConnectionPool.class) {
+                if (instance == null) {
+                    instance = new ConnectionPool(5);
+                }
             }
         }
-        return connection;
+        return instance;
+    }
+
+    public Connection getConnection() throws InterruptedException {
+        return pool.take();
+    }
+
+    public void releaseConnection(Connection connection) {
+        pool.offer(connection);
     }
 }

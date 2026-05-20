@@ -1,35 +1,18 @@
 package com.solvd.airportmanagement.service;
 
-import com.solvd.airportmanagement.dao.CardPaymentRepository;
 import com.solvd.airportmanagement.entity.CardPayment;
 
 import java.util.List;
 
-public class CardPaymentService {
+public interface CardPaymentService {
 
-    private final CardPaymentRepository repository;
+    void createPayment(CardPayment cardPayment);
 
-    public CardPaymentService(CardPaymentRepository repository) {
-        this.repository = repository;
-    }
+    void updatePayment(CardPayment cardPayment);
 
-    public void createPayment(CardPayment cardPayment) {
-        repository.create(cardPayment);
-    }
+    void deletePayment(Long id);
 
-    public void updatePayment(CardPayment cardPayment) {
-        repository.update(cardPayment);
-    }
+    CardPayment getPaymentById(Long id);
 
-    public void deletePayment(Long id) {
-        repository.delete(id);
-    }
-
-    public CardPayment getPaymentById(Long id) {
-        return repository.findById(id);
-    }
-
-    public List<CardPayment> getAllPayments() {
-        return repository.findAll();
-    }
+    List<CardPayment> getAllPayments();
 }

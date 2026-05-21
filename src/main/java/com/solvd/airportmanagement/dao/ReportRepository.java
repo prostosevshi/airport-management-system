@@ -1,9 +1,8 @@
 package com.solvd.airportmanagement.dao;
 
-import java.util.List;
-import java.util.Map;
+import com.solvd.airportmanagement.entity.Airport;
 
 public interface ReportRepository {
 
-    List<Map<String, Object>> getFullAirportReport();
+    Airport getFullAirportReport(Long airportId);
 }

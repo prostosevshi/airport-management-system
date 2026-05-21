@@ -2,6 +2,7 @@ package com.solvd.airportmanagement.dao.impl;
 
 import com.solvd.airportmanagement.dao.EmployeeRepository;
 import com.solvd.airportmanagement.entity.Employee;
+import com.solvd.airportmanagement.util.ConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,14 +10,14 @@ import java.util.List;
 
 public class EmployeeRepositoryImpl implements EmployeeRepository {
 
-    private final Connection connection;
-
-    public EmployeeRepositoryImpl(Connection connection) {
-        this.connection = connection;
-    }
+    private final ConnectionPool connectionPool =
+            ConnectionPool.getInstance();
 
     @Override
     public void create(Employee employee) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "INSERT INTO employees (name, age, salary) VALUES (?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -28,12 +29,20 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public void update(Employee employee) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "UPDATE employees SET name=?, age=?, salary=? WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -46,26 +55,43 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public void delete(Long id) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "DELETE FROM employees WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setLong(1, id);
+
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public Employee findById(Long id) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "SELECT * FROM employees WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -75,6 +101,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
+
                 Employee emp = new Employee();
 
                 emp.setId(rs.getLong("id"));
@@ -85,15 +112,23 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
                 return emp;
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return null;
 
-        return null;
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
+        }
     }
 
     @Override
     public List<Employee> findAll() {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "SELECT * FROM employees";
 
         List<Employee> list = new ArrayList<>();
@@ -103,6 +138,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
+
                 Employee emp = new Employee();
 
                 emp.setId(rs.getLong("id"));
@@ -113,10 +149,15 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
                 list.add(emp);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return list;
 
-        return list;
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
+        }
     }
 }

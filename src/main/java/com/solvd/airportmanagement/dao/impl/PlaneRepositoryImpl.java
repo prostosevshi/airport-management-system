@@ -2,6 +2,7 @@ package com.solvd.airportmanagement.dao.impl;
 
 import com.solvd.airportmanagement.dao.PlaneRepository;
 import com.solvd.airportmanagement.entity.Plane;
+import com.solvd.airportmanagement.util.ConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,14 +10,14 @@ import java.util.List;
 
 public class PlaneRepositoryImpl implements PlaneRepository {
 
-    private final Connection connection;
-
-    public PlaneRepositoryImpl(Connection connection) {
-        this.connection = connection;
-    }
+    private final ConnectionPool connectionPool =
+            ConnectionPool.getInstance();
 
     @Override
     public void create(Plane plane) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "INSERT INTO planes (model, number_of_engines, number_of_seats) VALUES (?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -28,12 +29,20 @@ public class PlaneRepositoryImpl implements PlaneRepository {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public void update(Plane plane) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "UPDATE planes SET model=?, number_of_engines=?, number_of_seats=? WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -46,26 +55,43 @@ public class PlaneRepositoryImpl implements PlaneRepository {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public void delete(Long id) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "DELETE FROM planes WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setLong(1, id);
+
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public Plane findById(Long id) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "SELECT * FROM planes WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -75,6 +101,7 @@ public class PlaneRepositoryImpl implements PlaneRepository {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
+
                 Plane plane = new Plane();
 
                 plane.setId(rs.getLong("id"));
@@ -85,15 +112,23 @@ public class PlaneRepositoryImpl implements PlaneRepository {
                 return plane;
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return null;
 
-        return null;
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
+        }
     }
 
     @Override
     public List<Plane> findAll() {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "SELECT * FROM planes";
 
         List<Plane> list = new ArrayList<>();
@@ -103,6 +138,7 @@ public class PlaneRepositoryImpl implements PlaneRepository {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
+
                 Plane plane = new Plane();
 
                 plane.setId(rs.getLong("id"));
@@ -113,10 +149,15 @@ public class PlaneRepositoryImpl implements PlaneRepository {
                 list.add(plane);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return list;
 
-        return list;
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
+        }
     }
 }

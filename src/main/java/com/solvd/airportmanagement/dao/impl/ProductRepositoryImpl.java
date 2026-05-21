@@ -2,6 +2,7 @@ package com.solvd.airportmanagement.dao.impl;
 
 import com.solvd.airportmanagement.dao.ProductRepository;
 import com.solvd.airportmanagement.entity.Product;
+import com.solvd.airportmanagement.util.ConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,15 +10,15 @@ import java.util.List;
 
 public class ProductRepositoryImpl implements ProductRepository {
 
-    private final Connection connection;
-
-    public ProductRepositoryImpl(Connection connection) {
-        this.connection = connection;
-    }
+    private final ConnectionPool connectionPool =
+            ConnectionPool.getInstance();
 
     @Override
     public void create(Product product) {
-        String sql = "INSERT INTO products (name, calories, price, fresh) VALUES (?, ?, ?, ?)";
+
+        Connection connection = connectionPool.getConnection();
+
+        String sql = "INSERT INTO products (name, calories, price, fresh, lunch_menu_id) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -25,17 +26,26 @@ public class ProductRepositoryImpl implements ProductRepository {
             ps.setInt(2, product.getCalories());
             ps.setBigDecimal(3, product.getPrice());
             ps.setBoolean(4, product.isFresh());
+            ps.setLong(5, product.getLunchMenuId());
 
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public void update(Product product) {
-        String sql = "UPDATE products SET name=?, calories=?, price=?, fresh=? WHERE id=?";
+
+        Connection connection = connectionPool.getConnection();
+
+        String sql = "UPDATE products SET name=?, calories=?, price=?, fresh=?, lunch_menu_id=? WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -43,17 +53,26 @@ public class ProductRepositoryImpl implements ProductRepository {
             ps.setInt(2, product.getCalories());
             ps.setBigDecimal(3, product.getPrice());
             ps.setBoolean(4, product.isFresh());
-            ps.setLong(5, product.getId());
+            ps.setLong(5, product.getLunchMenuId());
+            ps.setLong(6, product.getId());
 
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public void delete(Long id) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "DELETE FROM products WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -63,12 +82,20 @@ public class ProductRepositoryImpl implements ProductRepository {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public Product findById(Long id) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "SELECT * FROM products WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -86,19 +113,28 @@ public class ProductRepositoryImpl implements ProductRepository {
                 product.setCalories(rs.getInt("calories"));
                 product.setPrice(rs.getBigDecimal("price"));
                 product.setFresh(rs.getBoolean("fresh"));
+                product.setLunchMenuId(rs.getLong("lunch_menu_id"));
 
                 return product;
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return null;
 
-        return null;
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
+        }
     }
 
     @Override
     public List<Product> findAll() {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "SELECT * FROM products";
 
         List<Product> list = new ArrayList<>();
@@ -116,14 +152,20 @@ public class ProductRepositoryImpl implements ProductRepository {
                 product.setCalories(rs.getInt("calories"));
                 product.setPrice(rs.getBigDecimal("price"));
                 product.setFresh(rs.getBoolean("fresh"));
+                product.setLunchMenuId(rs.getLong("lunch_menu_id"));
 
                 list.add(product);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return list;
 
-        return list;
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.solvd.airportmanagement.dao.impl;
 
 import com.solvd.airportmanagement.dao.BookingRepository;
 import com.solvd.airportmanagement.entity.Booking;
+import com.solvd.airportmanagement.util.ConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,14 +10,14 @@ import java.util.List;
 
 public class BookingRepositoryImpl implements BookingRepository {
 
-    private final Connection connection;
-
-    public BookingRepositoryImpl(Connection connection) {
-        this.connection = connection;
-    }
+    private final ConnectionPool connectionPool =
+            ConnectionPool.getInstance();
 
     @Override
     public void create(Booking booking) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "INSERT INTO bookings (booking_number, booking_date) VALUES (?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -27,12 +28,20 @@ public class BookingRepositoryImpl implements BookingRepository {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public void update(Booking booking) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "UPDATE bookings SET booking_number=?, booking_date=? WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -44,26 +53,43 @@ public class BookingRepositoryImpl implements BookingRepository {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public void delete(Long id) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "DELETE FROM bookings WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setLong(1, id);
+
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public Booking findById(Long id) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "SELECT * FROM bookings WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -73,7 +99,9 @@ public class BookingRepositoryImpl implements BookingRepository {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
+
                 Booking booking = new Booking();
+
                 booking.setId(rs.getLong("id"));
                 booking.setBookingNumber(rs.getInt("booking_number"));
                 booking.setBookingDate(rs.getDate("booking_date").toLocalDate());
@@ -81,15 +109,23 @@ public class BookingRepositoryImpl implements BookingRepository {
                 return booking;
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return null;
 
-        return null;
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
+        }
     }
 
     @Override
     public List<Booking> findAll() {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "SELECT * FROM bookings";
 
         List<Booking> list = new ArrayList<>();
@@ -99,6 +135,7 @@ public class BookingRepositoryImpl implements BookingRepository {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
+
                 Booking booking = new Booking();
 
                 booking.setId(rs.getLong("id"));
@@ -108,10 +145,15 @@ public class BookingRepositoryImpl implements BookingRepository {
                 list.add(booking);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return list;
 
-        return list;
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
+        }
     }
 }

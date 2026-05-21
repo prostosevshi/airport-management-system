@@ -2,6 +2,7 @@ package com.solvd.airportmanagement.dao.impl;
 
 import com.solvd.airportmanagement.dao.CardPaymentRepository;
 import com.solvd.airportmanagement.entity.CardPayment;
+import com.solvd.airportmanagement.util.ConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,14 +10,14 @@ import java.util.List;
 
 public class CardPaymentRepositoryImpl implements CardPaymentRepository {
 
-    private final Connection connection;
-
-    public CardPaymentRepositoryImpl(Connection connection) {
-        this.connection = connection;
-    }
+    private final ConnectionPool connectionPool =
+            ConnectionPool.getInstance();
 
     @Override
     public void create(CardPayment cardPayment) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "INSERT INTO card_payments (card_number, payment_number, payment_amount, payment_date) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -29,12 +30,20 @@ public class CardPaymentRepositoryImpl implements CardPaymentRepository {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public void update(CardPayment cardPayment) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "UPDATE card_payments SET card_number=?, payment_number=?, payment_amount=?, payment_date=? WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -48,26 +57,43 @@ public class CardPaymentRepositoryImpl implements CardPaymentRepository {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public void delete(Long id) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "DELETE FROM card_payments WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setLong(1, id);
+
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public CardPayment findById(Long id) {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "SELECT * FROM card_payments WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -77,7 +103,9 @@ public class CardPaymentRepositoryImpl implements CardPaymentRepository {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
+
                 CardPayment cp = new CardPayment();
+
                 cp.setId(rs.getLong("id"));
                 cp.setCardNumber(rs.getInt("card_number"));
                 cp.setPaymentNumber(rs.getInt("payment_number"));
@@ -87,15 +115,23 @@ public class CardPaymentRepositoryImpl implements CardPaymentRepository {
                 return cp;
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return null;
 
-        return null;
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
+        }
     }
 
     @Override
     public List<CardPayment> findAll() {
+
+        Connection connection = connectionPool.getConnection();
+
         String sql = "SELECT * FROM card_payments";
 
         List<CardPayment> list = new ArrayList<>();
@@ -105,6 +141,7 @@ public class CardPaymentRepositoryImpl implements CardPaymentRepository {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
+
                 CardPayment cp = new CardPayment();
 
                 cp.setId(rs.getLong("id"));
@@ -116,10 +153,15 @@ public class CardPaymentRepositoryImpl implements CardPaymentRepository {
                 list.add(cp);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return list;
 
-        return list;
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        } finally {
+
+            connectionPool.releaseConnection(connection);
+        }
     }
 }

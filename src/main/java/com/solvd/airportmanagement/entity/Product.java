@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class Product {
 
     private Long id;
+    private Long LunchMenuId;
     private String name;
     private Integer calories;
     private BigDecimal price;
@@ -49,5 +50,14 @@ public class Product {
 
     public void setFresh(boolean fresh) {
         this.fresh = fresh;
+    }
+
+
+    public Long getLunchMenuId() {
+        return LunchMenuId;
+    }
+
+    public void setLunchMenuId(Long lunchMenuId) {
+        LunchMenuId = lunchMenuId;
     }
 }

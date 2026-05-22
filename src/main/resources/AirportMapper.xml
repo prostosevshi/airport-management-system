@@ -1,0 +1,58 @@
+<mapper namespace="com.solvd.airportmanagement.dao.mybatis.AirportMapper">
+
+    <resultMap id="airportMap" type="com.solvd.airportmanagement.entity.Airport">
+
+        <id property="id" column="id"/>
+        <result property="airportName" column="airport_name"/>
+        <result property="airportLocation" column="airport_location"/>
+
+        <collection property="planes"
+                    ofType="com.solvd.airportmanagement.entity.Plane"
+                    select="com.solvd.airportmanagement.dao.mybatis.PlaneMapper.findByAirportId"
+                    column="id"/>
+
+        <collection property="employees"
+                    ofType="com.solvd.airportmanagement.entity.Employee"
+                    select="com.solvd.airportmanagement.dao.mybatis.EmployeeMapper.findByAirportId"
+                    column="id"/>
+
+        <collection property="bookings"
+                    ofType="com.solvd.airportmanagement.entity.Booking"
+                    select="com.solvd.airportmanagement.dao.mybatis.BookingMapper.findByAirportId"
+                    column="id"/>
+
+    </resultMap>
+
+    <!-- CREATE -->
+    <insert id="insert" parameterType="com.solvd.airportmanagement.entity.Airport"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO airports (airport_name, airport_location)
+        VALUES (#{airportName}, #{airportLocation})
+    </insert>
+
+    <!-- UPDATE -->
+    <update id="update">
+        UPDATE airports
+        SET airport_name = #{airportName},
+        airport_location = #{airportLocation}
+        WHERE id = #{id}
+    </update>
+
+    <!-- DELETE -->
+    <delete id="delete">
+        DELETE FROM airports WHERE id = #{id}
+    </delete>
+
+    <!-- FIND BY ID -->
+    <select id="findById" resultMap="airportMap">
+        SELECT *
+        FROM airports
+        WHERE id = #{id}
+    </select>
+
+    <!-- FIND ALL -->
+    <select id="findAll" resultMap="airportMap">
+        SELECT * FROM airports
+    </select>
+
+</mapper>

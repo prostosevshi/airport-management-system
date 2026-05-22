@@ -1,0 +1,45 @@
+<mapper namespace="com.solvd.airportmanagement.dao.mybatis.PlaneMapper">
+
+    <!-- INSERT -->
+    <insert id="insert" parameterType="com.solvd.airportmanagement.entity.Plane"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO planes (model, number_of_engines, number_of_seats, airport_id)
+        VALUES (#{model}, #{numberOfEngines}, #{numberOfSeats}, #{airportId})
+    </insert>
+
+    <!-- UPDATE -->
+    <update id="update" parameterType="com.solvd.airportmanagement.entity.Plane">
+        UPDATE planes
+        SET model = #{model},
+        number_of_engines = #{numberOfEngines},
+        number_of_seats = #{numberOfSeats},
+        airport_id = #{airportId}
+        WHERE id = #{id}
+    </update>
+
+    <!-- DELETE -->
+    <delete id="delete" parameterType="long">
+        DELETE FROM planes WHERE id = #{id}
+    </delete>
+
+    <!-- FIND BY ID -->
+    <select id="findById" resultType="com.solvd.airportmanagement.entity.Plane">
+        SELECT *
+        FROM planes
+        WHERE id = #{id}
+    </select>
+
+    <!-- FIND ALL -->
+    <select id="findAll" resultType="com.solvd.airportmanagement.entity.Plane">
+        SELECT *
+        FROM planes
+    </select>
+
+    <!-- FIND BY AIRPORT -->
+    <select id="findByAirportId" resultType="com.solvd.airportmanagement.entity.Plane">
+        SELECT *
+        FROM planes
+        WHERE airport_id = #{airportId}
+    </select>
+
+</mapper>

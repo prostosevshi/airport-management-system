@@ -1,0 +1,69 @@
+<mapper namespace="com.solvd.airportmanagement.dao.mybatis.ProductMapper">
+
+    <resultMap id="productMap" type="com.solvd.airportmanagement.entity.Product">
+
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="calories" column="calories"/>
+        <result property="price" column="price"/>
+        <result property="fresh" column="fresh"/>
+        <result property="lunchMenuId" column="lunch_menu_id"/>
+
+    </resultMap>
+
+    <!-- ===================== INSERT ===================== -->
+    <insert id="insert" parameterType="com.solvd.airportmanagement.entity.Product"
+            useGeneratedKeys="true" keyProperty="id">
+
+        INSERT INTO products (name, calories, price, fresh, lunch_menu_id)
+        VALUES (#{name}, #{calories}, #{price}, #{fresh}, #{lunchMenuId})
+
+    </insert>
+
+    <!-- ===================== UPDATE ===================== -->
+    <update id="update" parameterType="com.solvd.airportmanagement.entity.Product">
+
+        UPDATE products
+        SET name = #{name},
+        calories = #{calories},
+        price = #{price},
+        fresh = #{fresh},
+        lunch_menu_id = #{lunchMenuId}
+        WHERE id = #{id}
+
+    </update>
+
+    <!-- ===================== DELETE ===================== -->
+    <delete id="delete">
+
+        DELETE FROM products WHERE id = #{id}
+
+    </delete>
+
+    <!-- ===================== SELECT BY ID ===================== -->
+    <select id="findById" resultMap="productMap">
+
+        SELECT *
+        FROM products
+        WHERE id = #{id}
+
+    </select>
+
+    <!-- ===================== SELECT ALL ===================== -->
+    <select id="findAll" resultMap="productMap">
+
+        SELECT *
+        FROM products
+
+    </select>
+
+    <!-- ===================== EXTRA SELECT ===================== -->
+    <select id="findByLunchMenuId" resultMap="productMap">
+
+        SELECT *
+        FROM products
+        WHERE lunch_menu_id = #{lunchMenuId}
+
+    </select>
+
+</mapper>

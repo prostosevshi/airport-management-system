@@ -1,0 +1,67 @@
+<mapper namespace="com.solvd.airportmanagement.dao.mybatis.EmployeeMapper">
+
+    <resultMap id="employeeMap" type="com.solvd.airportmanagement.entity.Employee">
+
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="salary" column="salary"/>
+        <result property="airportId" column="airport_id"/>
+
+    </resultMap>
+
+    <!-- ===================== INSERT ===================== -->
+    <insert id="insert" parameterType="com.solvd.airportmanagement.entity.Employee"
+            useGeneratedKeys="true" keyProperty="id">
+
+        INSERT INTO employees (name, age, salary, airport_id)
+        VALUES (#{name}, #{age}, #{salary}, #{airportId})
+
+    </insert>
+
+    <!-- ===================== UPDATE ===================== -->
+    <update id="update" parameterType="com.solvd.airportmanagement.entity.Employee">
+
+        UPDATE employees
+        SET name = #{name},
+        age = #{age},
+        salary = #{salary},
+        airport_id = #{airportId}
+        WHERE id = #{id}
+
+    </update>
+
+    <!-- ===================== DELETE ===================== -->
+    <delete id="delete">
+
+        DELETE FROM employees WHERE id = #{id}
+
+    </delete>
+
+    <!-- ===================== SELECT BY ID ===================== -->
+    <select id="findById" resultMap="employeeMap">
+
+        SELECT *
+        FROM employees
+        WHERE id = #{id}
+
+    </select>
+
+    <!-- ===================== SELECT ALL ===================== -->
+    <select id="findAll" resultMap="employeeMap">
+
+        SELECT *
+        FROM employees
+
+    </select>
+
+    <!-- ===================== EXTRA SELECT (IMPORTANT RELATION) ===================== -->
+    <select id="findByAirportId" resultMap="employeeMap">
+
+        SELECT *
+        FROM employees
+        WHERE airport_id = #{airportId}
+
+    </select>
+
+</mapper>

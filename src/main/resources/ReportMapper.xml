@@ -1,0 +1,50 @@
+<mapper namespace="com.solvd.airportmanagement.dao.mybatis.ReportMapper">
+
+    <select id="getFullAirportReport" resultType="map">
+
+        SELECT
+        a.id AS airport_id,
+        a.airport_name,
+        a.airport_location,
+
+        p.id AS plane_id,
+        p.model AS plane_model,
+        p.number_of_engines,
+        p.number_of_seats,
+
+        e.id AS employee_id,
+        e.name AS employee_name,
+        e.salary,
+
+        g.id AS guest_id,
+        g.name AS guest_name,
+        g.passport_number,
+
+        b.id AS booking_id,
+        b.booking_number,
+        b.booking_date,
+
+        cp.id AS payment_id,
+        cp.payment_amount,
+        cp.payment_date
+
+        FROM airports a
+
+        LEFT JOIN planes p
+        ON p.airport_id = a.id
+
+        LEFT JOIN employees e
+        ON e.airport_id = a.id
+
+        LEFT JOIN guests g
+        ON g.plane_id = p.id
+
+        LEFT JOIN bookings b
+        ON b.guest_id = g.id
+
+        LEFT JOIN card_payments cp
+        ON cp.booking_id = b.id
+
+    </select>
+
+</mapper>

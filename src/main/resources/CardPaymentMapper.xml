@@ -1,0 +1,69 @@
+<mapper namespace="com.solvd.airportmanagement.dao.mybatis.CardPaymentMapper">
+
+    <resultMap id="paymentMap" type="com.solvd.airportmanagement.entity.CardPayment">
+
+        <id property="id" column="id"/>
+        <result property="cardNumber" column="card_number"/>
+        <result property="paymentNumber" column="payment_number"/>
+        <result property="paymentAmount" column="payment_amount"/>
+        <result property="paymentDate" column="payment_date"/>
+        <result property="bookingId" column="booking_id"/>
+
+    </resultMap>
+
+    <!-- ===================== INSERT ===================== -->
+    <insert id="insert" parameterType="com.solvd.airportmanagement.entity.CardPayment"
+            useGeneratedKeys="true" keyProperty="id">
+
+        INSERT INTO card_payments (card_number, payment_number, payment_amount, payment_date, booking_id)
+        VALUES (#{cardNumber}, #{paymentNumber}, #{paymentAmount}, #{paymentDate}, #{bookingId})
+
+    </insert>
+
+    <!-- ===================== UPDATE ===================== -->
+    <update id="update" parameterType="com.solvd.airportmanagement.entity.CardPayment">
+
+        UPDATE card_payments
+        SET card_number = #{cardNumber},
+        payment_number = #{paymentNumber},
+        payment_amount = #{paymentAmount},
+        payment_date = #{paymentDate},
+        booking_id = #{bookingId}
+        WHERE id = #{id}
+
+    </update>
+
+    <!-- ===================== DELETE ===================== -->
+    <delete id="delete">
+
+        DELETE FROM card_payments WHERE id = #{id}
+
+    </delete>
+
+    <!-- ===================== SELECT BY ID ===================== -->
+    <select id="findById" resultMap="paymentMap">
+
+        SELECT *
+        FROM card_payments
+        WHERE id = #{id}
+
+    </select>
+
+    <!-- ===================== SELECT ALL ===================== -->
+    <select id="findAll" resultMap="paymentMap">
+
+        SELECT *
+        FROM card_payments
+
+    </select>
+
+    <!-- ===================== EXTRA SELECT ===================== -->
+    <select id="findByBookingId" resultMap="paymentMap">
+
+        SELECT *
+        FROM card_payments
+        WHERE booking_id = #{bookingId}
+
+    </select>
+
+</mapper>

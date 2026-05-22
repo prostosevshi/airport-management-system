@@ -1,0 +1,67 @@
+<mapper namespace="com.solvd.airportmanagement.dao.mybatis.GuestMapper">
+
+    <resultMap id="guestMap" type="com.solvd.airportmanagement.entity.Guest">
+
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="passportNumber" column="passport_number"/>
+        <result property="planeId" column="plane_id"/>
+
+    </resultMap>
+
+    <!-- ===================== INSERT ===================== -->
+    <insert id="insert" parameterType="com.solvd.airportmanagement.entity.Guest"
+            useGeneratedKeys="true" keyProperty="id">
+
+        INSERT INTO guests (name, age, passport_number, plane_id)
+        VALUES (#{name}, #{age}, #{passportNumber}, #{planeId})
+
+    </insert>
+
+    <!-- ===================== UPDATE ===================== -->
+    <update id="update" parameterType="com.solvd.airportmanagement.entity.Guest">
+
+        UPDATE guests
+        SET name = #{name},
+        age = #{age},
+        passport_number = #{passportNumber},
+        plane_id = #{planeId}
+        WHERE id = #{id}
+
+    </update>
+
+    <!-- ===================== DELETE ===================== -->
+    <delete id="delete">
+
+        DELETE FROM guests WHERE id = #{id}
+
+    </delete>
+
+    <!-- ===================== SELECT BY ID ===================== -->
+    <select id="findById" resultMap="guestMap">
+
+        SELECT *
+        FROM guests
+        WHERE id = #{id}
+
+    </select>
+
+    <!-- ===================== SELECT ALL ===================== -->
+    <select id="findAll" resultMap="guestMap">
+
+        SELECT *
+        FROM guests
+
+    </select>
+
+    <!-- ===================== EXTRA SELECT ===================== -->
+    <select id="findByPlaneId" resultMap="guestMap">
+
+        SELECT *
+        FROM guests
+        WHERE plane_id = #{planeId}
+
+    </select>
+
+</mapper>

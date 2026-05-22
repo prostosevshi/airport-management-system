@@ -1,0 +1,76 @@
+<mapper namespace="com.solvd.airportmanagement.dao.mybatis.BookingMapper">
+
+    <resultMap id="bookingMap" type="com.solvd.airportmanagement.entity.Booking">
+
+        <id property="id" column="id"/>
+        <result property="bookingNumber" column="booking_number"/>
+        <result property="bookingDate" column="booking_date"/>
+        <result property="airportId" column="airport_id"/>
+        <result property="guestId" column="guest_id"/>
+
+    </resultMap>
+
+    <!-- ===================== INSERT ===================== -->
+    <insert id="insert" parameterType="com.solvd.airportmanagement.entity.Booking"
+            useGeneratedKeys="true" keyProperty="id">
+
+        INSERT INTO bookings (booking_number, booking_date, airport_id, guest_id)
+        VALUES (#{bookingNumber}, #{bookingDate}, #{airportId}, #{guestId})
+
+    </insert>
+
+    <!-- ===================== UPDATE ===================== -->
+    <update id="update" parameterType="com.solvd.airportmanagement.entity.Booking">
+
+        UPDATE bookings
+        SET booking_number = #{bookingNumber},
+        booking_date = #{bookingDate},
+        airport_id = #{airportId},
+        guest_id = #{guestId}
+        WHERE id = #{id}
+
+    </update>
+
+    <!-- ===================== DELETE ===================== -->
+    <delete id="delete">
+
+        DELETE FROM bookings WHERE id = #{id}
+
+    </delete>
+
+    <!-- ===================== SELECT BY ID ===================== -->
+    <select id="findById" resultMap="bookingMap">
+
+        SELECT *
+        FROM bookings
+        WHERE id = #{id}
+
+    </select>
+
+    <!-- ===================== SELECT ALL ===================== -->
+    <select id="findAll" resultMap="bookingMap">
+
+        SELECT *
+        FROM bookings
+
+    </select>
+
+    <!-- ===================== EXTRA SELECTS ===================== -->
+
+    <select id="findByGuestId" resultMap="bookingMap">
+
+        SELECT *
+        FROM bookings
+        WHERE guest_id = #{guestId}
+
+    </select>
+
+    <select id="findByAirportId" resultMap="bookingMap">
+
+        SELECT *
+        FROM bookings
+        WHERE airport_id = #{airportId}
+
+    </select>
+
+</mapper>

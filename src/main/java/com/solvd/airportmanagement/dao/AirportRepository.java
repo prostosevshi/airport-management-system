@@ -1,7 +1,6 @@
 package com.solvd.airportmanagement.dao;
 
 import com.solvd.airportmanagement.entity.Airport;
-
 import java.util.List;
 
 public interface AirportRepository {

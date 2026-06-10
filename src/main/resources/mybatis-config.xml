@@ -28,6 +28,13 @@
 
     <mappers>
         <mapper resource="mappers/AirportMapper.xml"/>
+        <mapper resource="mappers/BookingMapper.xml"/>
+        <mapper resource="mappers/CardPaymentMapper.xml"/>
+        <mapper resource="mappers/EmployeeMapper.xml"/>
+        <mapper resource="mappers/GuestMapper.xml"/>
+        <mapper resource="mappers/PlaneMapper.xml"/>
+        <mapper resource="mappers/ProductMapper.xml"/>
+        <mapper resource="mappers/ReportMapper.xml"/>
     </mappers>
 
 </configuration>

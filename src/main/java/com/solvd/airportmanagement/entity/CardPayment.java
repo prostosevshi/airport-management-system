@@ -9,6 +9,7 @@ public class CardPayment {
     private int paymentNumber;
     private int paymentAmount;
     private LocalDate paymentDate;
+    private Long bookingId;
 
     public Long getId() {
         return id;
@@ -48,5 +49,13 @@ public class CardPayment {
 
     public void setCardNumber(int cardNumber) {
         this.cardNumber = cardNumber;
+    }
+
+    public Long getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(Long bookingId) {
+        this.bookingId = bookingId;
     }
 }

@@ -1,36 +1,54 @@
 package com.solvd.airportmanagement.service.impl;
 
 import com.solvd.airportmanagement.dao.BookingRepository;
+import com.solvd.airportmanagement.dao.CardPaymentRepository;
 import com.solvd.airportmanagement.entity.Booking;
+import com.solvd.airportmanagement.entity.CardPayment;
 import com.solvd.airportmanagement.service.BookingService;
 
 import java.util.List;
 
 public class BookingServiceImpl implements BookingService {
 
-    private final BookingRepository repository;
+    private final BookingRepository bookingRepository;
+    private final CardPaymentRepository paymentRepository;
 
-    public BookingServiceImpl(BookingRepository repository) {
-        this.repository = repository;
+    public BookingServiceImpl(BookingRepository bookingRepository,
+                              CardPaymentRepository paymentRepository) {
+        this.bookingRepository = bookingRepository;
+        this.paymentRepository = paymentRepository;
     }
 
+    @Override
     public void createBooking(Booking booking) {
-        repository.create(booking);
+        bookingRepository.create(booking);
     }
 
+    @Override
     public void updateBooking(Booking booking) {
-        repository.update(booking);
+        bookingRepository.update(booking);
     }
 
+    @Override
     public void deleteBooking(Long id) {
-        repository.delete(id);
+        bookingRepository.delete(id);
     }
 
+    @Override
     public Booking getBookingById(Long id) {
-        return repository.findById(id);
+        return bookingRepository.findById(id);
     }
 
+    @Override
     public List<Booking> getAllBookings() {
-        return repository.findAll();
+        return bookingRepository.findAll();
+    }
+
+    public void createBookingWithPayment(Booking booking,
+                                         CardPayment payment) {
+
+        bookingRepository.create(booking);
+
+        paymentRepository.create(payment);
     }
 }

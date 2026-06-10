@@ -6,6 +6,7 @@ public class Employee {
     private String name;
     private int age;
     private int salary;
+    private Long airportId;
 
     public Long getId() {
         return id;
@@ -37,5 +38,13 @@ public class Employee {
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    public Long getAirportId() {
+        return airportId;
+    }
+
+    public void setAirportId(Long airportId) {
+        this.airportId = airportId;
     }
 }

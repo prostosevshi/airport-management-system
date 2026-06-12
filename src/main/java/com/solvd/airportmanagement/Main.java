@@ -1,50 +1,55 @@
 package com.solvd.airportmanagement;
 
-import com.solvd.airportmanagement.dao.AirportRepository;
-import com.solvd.airportmanagement.dao.EmployeeRepository;
-import com.solvd.airportmanagement.dao.jdbcimpl.AirportRepositoryImpl;
-import com.solvd.airportmanagement.dao.jdbcimpl.EmployeeRepositoryImpl;
+import com.solvd.airportmanagement.decorator.LoggingEmployeeServiceDecorator;
+import com.solvd.airportmanagement.facade.AirportFacade;
+import com.solvd.airportmanagement.factory.DaoFactory;
+import com.solvd.airportmanagement.factory.JdbcDaoFactory;
+import com.solvd.airportmanagement.listener.AirportCreatedEvent;
+import com.solvd.airportmanagement.listener.AirportListener;
+import com.solvd.airportmanagement.listener.LoggingAirportListener;
 import com.solvd.airportmanagement.service.EmployeeService;
 import com.solvd.airportmanagement.service.impl.AirportServiceImpl;
 import com.solvd.airportmanagement.service.impl.EmployeeServiceImpl;
 import com.solvd.airportmanagement.entity.Airport;
-import com.solvd.airportmanagement.entity.Employee;
-
-import java.util.List;
+import com.solvd.airportmanagement.builder.AirportBuilder;
+import com.solvd.airportmanagement.strategy.JdbcReportStrategy;
+import com.solvd.airportmanagement.strategy.MyBatisReportStrategy;
+import com.solvd.airportmanagement.strategy.ReportContext;
 
 public class Main {
     public static void main(String[] args) {
 
-        AirportRepository airportRepository = new AirportRepositoryImpl();
-        EmployeeRepository employeeRepository = new EmployeeRepositoryImpl();
+        DaoFactory factory = new JdbcDaoFactory();
 
-        EmployeeService employeeService = new EmployeeServiceImpl(employeeRepository);
+        EmployeeService employeeService =
+                new LoggingEmployeeServiceDecorator(
+                        new EmployeeServiceImpl(factory.createEmployeeRepository())
+                );
 
-        AirportServiceImpl airportService =
-                new AirportServiceImpl(
-                        airportRepository,
+        AirportFacade facade =
+                new AirportFacade(
+                        new AirportServiceImpl(factory.createAirportRepository(), employeeService),
                         employeeService
                 );
 
-        // Create data
-        Airport airport = new Airport();
-        airport.setAirportName("Tbilisi International");
-        airport.setAirportLocation("Georgia");
 
-        Employee emp1 = new Employee();
-        emp1.setName("John");
-        emp1.setAge(30);
-        emp1.setSalary(1000);
+        Airport airport = new AirportBuilder()
+                .name("Tbilisi Airport")
+                .location("Georgia")
+                .build();
 
-        Employee emp2 = new Employee();
-        emp2.setName("Mike");
-        emp2.setAge(40);
-        emp2.setSalary(1500);
+        facade.createAirportFull(airport);
 
-        airport.setEmployees(List.of(emp1, emp2));
+        ReportContext context = new ReportContext();
+        context.setStrategy(new JdbcReportStrategy());
+        context.generate();
 
-        airportService.createAirportWithEmployees(airport);
+        context.setStrategy(new MyBatisReportStrategy());
+        context.generate();
 
-        System.out.println("Airport and employees created.");
+        AirportListener listener = new LoggingAirportListener();
+        listener.onAirportCreated(new AirportCreatedEvent(airport));
+
+        System.out.println("Airport created.");
     }
 }

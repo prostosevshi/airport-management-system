@@ -4,26 +4,29 @@ import com.solvd.airportmanagement.dao.AirportRepository;
 import com.solvd.airportmanagement.dao.EmployeeRepository;
 import com.solvd.airportmanagement.dao.jdbcimpl.AirportRepositoryImpl;
 import com.solvd.airportmanagement.dao.jdbcimpl.EmployeeRepositoryImpl;
+import com.solvd.airportmanagement.service.EmployeeService;
+import com.solvd.airportmanagement.service.impl.AirportServiceImpl;
+import com.solvd.airportmanagement.service.impl.EmployeeServiceImpl;
 import com.solvd.airportmanagement.entity.Airport;
 import com.solvd.airportmanagement.entity.Employee;
-import com.solvd.airportmanagement.service.impl.AirportServiceImpl;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        AirportRepository airportRepository =
-                new AirportRepositoryImpl();
+        AirportRepository airportRepository = new AirportRepositoryImpl();
+        EmployeeRepository employeeRepository = new EmployeeRepositoryImpl();
 
-        EmployeeRepository employeeRepository =
-                new EmployeeRepositoryImpl();
+        EmployeeService employeeService = new EmployeeServiceImpl(employeeRepository);
 
         AirportServiceImpl airportService =
                 new AirportServiceImpl(
                         airportRepository,
-                        employeeRepository);
+                        employeeService
+                );
 
+        // Create data
         Airport airport = new Airport();
         airport.setAirportName("Tbilisi International");
         airport.setAirportLocation("Georgia");

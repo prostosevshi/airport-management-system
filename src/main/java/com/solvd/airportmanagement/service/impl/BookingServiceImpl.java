@@ -1,22 +1,22 @@
 package com.solvd.airportmanagement.service.impl;
 
 import com.solvd.airportmanagement.dao.BookingRepository;
-import com.solvd.airportmanagement.dao.CardPaymentRepository;
 import com.solvd.airportmanagement.entity.Booking;
 import com.solvd.airportmanagement.entity.CardPayment;
 import com.solvd.airportmanagement.service.BookingService;
+import com.solvd.airportmanagement.service.CardPaymentService;
 
 import java.util.List;
 
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
-    private final CardPaymentRepository paymentRepository;
+    private final CardPaymentService cardPaymentService;
 
     public BookingServiceImpl(BookingRepository bookingRepository,
-                              CardPaymentRepository paymentRepository) {
+                              CardPaymentService cardPaymentService) {
         this.bookingRepository = bookingRepository;
-        this.paymentRepository = paymentRepository;
+        this.cardPaymentService = cardPaymentService;
     }
 
     @Override
@@ -44,11 +44,12 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.findAll();
     }
 
-    public void createBookingWithPayment(Booking booking,
-                                         CardPayment payment) {
+    public void createBookingWithPayment(Booking booking, CardPayment payment) {
 
         bookingRepository.create(booking);
 
-        paymentRepository.create(payment);
+        payment.setBookingId(booking.getId());
+
+        cardPaymentService.createPayment(payment);
     }
 }

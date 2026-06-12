@@ -1,22 +1,22 @@
 package com.solvd.airportmanagement.service.impl;
 
 import com.solvd.airportmanagement.dao.AirportRepository;
-import com.solvd.airportmanagement.dao.EmployeeRepository;
 import com.solvd.airportmanagement.entity.Airport;
 import com.solvd.airportmanagement.entity.Employee;
 import com.solvd.airportmanagement.service.AirportService;
+import com.solvd.airportmanagement.service.EmployeeService;
 
 import java.util.List;
 
 public class AirportServiceImpl implements AirportService {
 
     private final AirportRepository airportRepository;
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
 
     public AirportServiceImpl(AirportRepository airportRepository,
-                              EmployeeRepository employeeRepository) {
+                              EmployeeService employeeService) {
         this.airportRepository = airportRepository;
-        this.employeeRepository = employeeRepository;
+        this.employeeService = employeeService;
     }
 
     @Override
@@ -34,8 +34,10 @@ public class AirportServiceImpl implements AirportService {
         airportRepository.create(airport);
 
         if (airport.getEmployees() != null) {
+
             for (Employee employee : airport.getEmployees()) {
-                employeeRepository.create(employee);
+                employee.setAirportId(airport.getId());
+                employeeService.createEmployee(employee);
             }
         }
     }

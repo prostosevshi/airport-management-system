@@ -21,21 +21,21 @@ public class LoggingEmployeeServiceDecorator implements EmployeeService {
 
     @Override
     public void updateEmployee(Employee employee) {
-
+        service.updateEmployee(employee);
     }
 
     @Override
     public void deleteEmployee(Long id) {
-
+        service.deleteEmployee(id);
     }
 
     @Override
     public Employee getEmployeeById(Long id) {
-        return null;
+        return service.getEmployeeById(id);
     }
 
     @Override
     public List<Employee> getAllEmployees() {
-        return List.of();
+        return service.getAllEmployees();
     }
 }

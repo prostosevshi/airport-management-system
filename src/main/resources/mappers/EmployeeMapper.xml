@@ -1,4 +1,4 @@
-<mapper namespace="com.solvd.airportmanagement.dao.mybatis.EmployeeMapper">
+<mapper namespace="com.solvd.airportmanagement.mapper.EmployeeMapper">
 
     <resultMap id="employeeMap" type="com.solvd.airportmanagement.entity.Employee">
 

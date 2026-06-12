@@ -1,4 +1,4 @@
-<mapper namespace="com.solvd.airportmanagement.dao.mybatis.ReportMapper">
+<mapper namespace="com.solvd.airportmanagement.mapper.ReportMapper">
 
     <select id="getFullAirportReport" resultType="map">
 

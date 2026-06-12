@@ -1,4 +1,4 @@
-<mapper namespace="com.solvd.airportmanagement.dao.mybatis.ProductMapper">
+<mapper namespace="com.solvd.airportmanagement.mapper.ProductMapper">
 
     <resultMap id="productMap" type="com.solvd.airportmanagement.entity.Product">
 

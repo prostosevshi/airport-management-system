@@ -1,4 +1,4 @@
-<mapper namespace="com.solvd.airportmanagement.dao.mybatis.PlaneMapper">
+<mapper namespace="com.solvd.airportmanagement.mapper.PlaneMapper">
 
     <!-- INSERT -->
     <insert id="insert" parameterType="com.solvd.airportmanagement.entity.Plane"

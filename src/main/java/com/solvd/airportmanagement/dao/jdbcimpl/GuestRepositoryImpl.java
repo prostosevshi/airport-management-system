@@ -1,30 +1,30 @@
-package com.solvd.airportmanagement.dao.impl;
+package com.solvd.airportmanagement.dao.jdbcimpl;
 
-import com.solvd.airportmanagement.dao.EmployeeRepository;
-import com.solvd.airportmanagement.entity.Employee;
+import com.solvd.airportmanagement.dao.GuestRepository;
+import com.solvd.airportmanagement.entity.Guest;
 import com.solvd.airportmanagement.util.ConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeRepositoryImpl implements EmployeeRepository {
+public class GuestRepositoryImpl implements GuestRepository {
 
     private final ConnectionPool connectionPool =
             ConnectionPool.getInstance();
 
     @Override
-    public void create(Employee employee) {
+    public void create(Guest guest) {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "INSERT INTO employees (name, age, salary) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO guests (name, age, passport_number) VALUES (?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setString(1, employee.getName());
-            ps.setInt(2, employee.getAge());
-            ps.setInt(3, employee.getSalary());
+            ps.setString(1, guest.getName());
+            ps.setInt(2, guest.getAge());
+            ps.setInt(3, Integer.parseInt(guest.getPassportNumber()));
 
             ps.executeUpdate();
 
@@ -39,18 +39,18 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public void update(Employee employee) {
+    public void update(Guest guest) {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "UPDATE employees SET name=?, age=?, salary=? WHERE id=?";
+        String sql = "UPDATE guests SET name=?, age=?, passport_number=? WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setString(1, employee.getName());
-            ps.setInt(2, employee.getAge());
-            ps.setInt(3, employee.getSalary());
-            ps.setLong(4, employee.getId());
+            ps.setString(1, guest.getName());
+            ps.setInt(2, guest.getAge());
+            ps.setInt(3, Integer.parseInt(guest.getPassportNumber()));
+            ps.setLong(4, guest.getId());
 
             ps.executeUpdate();
 
@@ -69,7 +69,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "DELETE FROM employees WHERE id=?";
+        String sql = "DELETE FROM guests WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -88,11 +88,11 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public Employee findById(Long id) {
+    public Guest findById(Long id) {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "SELECT * FROM employees WHERE id=?";
+        String sql = "SELECT * FROM guests WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -102,14 +102,16 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
             if (rs.next()) {
 
-                Employee emp = new Employee();
+                Guest guest = new Guest();
 
-                emp.setId(rs.getLong("id"));
-                emp.setName(rs.getString("name"));
-                emp.setAge(rs.getInt("age"));
-                emp.setSalary(rs.getInt("salary"));
+                guest.setId(rs.getLong("id"));
+                guest.setName(rs.getString("name"));
+                guest.setAge(rs.getInt("age"));
+                guest.setPassportNumber(
+                        String.valueOf(rs.getInt("passport_number"))
+                );
 
-                return emp;
+                return guest;
             }
 
             return null;
@@ -125,13 +127,13 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public List<Employee> findAll() {
+    public List<Guest> findAll() {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "SELECT * FROM employees";
+        String sql = "SELECT * FROM guests";
 
-        List<Employee> list = new ArrayList<>();
+        List<Guest> list = new ArrayList<>();
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -139,14 +141,16 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
             while (rs.next()) {
 
-                Employee emp = new Employee();
+                Guest guest = new Guest();
 
-                emp.setId(rs.getLong("id"));
-                emp.setName(rs.getString("name"));
-                emp.setAge(rs.getInt("age"));
-                emp.setSalary(rs.getInt("salary"));
+                guest.setId(rs.getLong("id"));
+                guest.setName(rs.getString("name"));
+                guest.setAge(rs.getInt("age"));
+                guest.setPassportNumber(
+                        String.valueOf(rs.getInt("passport_number"))
+                );
 
-                list.add(emp);
+                list.add(guest);
             }
 
             return list;

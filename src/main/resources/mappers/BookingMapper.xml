@@ -1,4 +1,4 @@
-<mapper namespace="com.solvd.airportmanagement.dao.mybatis.BookingMapper">
+<mapper namespace="com.solvd.airportmanagement.mapper.BookingMapper">
 
     <resultMap id="bookingMap" type="com.solvd.airportmanagement.entity.Booking">
 

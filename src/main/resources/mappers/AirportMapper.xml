@@ -1,4 +1,4 @@
-<mapper namespace="com.solvd.airportmanagement.dao.mybatis.AirportMapper">
+<mapper namespace="com.solvd.airportmanagement.mapper.AirportMapper">
 
     <resultMap id="airportMap" type="com.solvd.airportmanagement.entity.Airport">
 
@@ -8,17 +8,17 @@
 
         <collection property="planes"
                     ofType="com.solvd.airportmanagement.entity.Plane"
-                    select="com.solvd.airportmanagement.dao.mybatis.PlaneMapper.findByAirportId"
+                    select="com.solvd.airportmanagement.mapper.PlaneMapper.findByAirportId"
                     column="id"/>
 
         <collection property="employees"
                     ofType="com.solvd.airportmanagement.entity.Employee"
-                    select="com.solvd.airportmanagement.dao.mybatis.EmployeeMapper.findByAirportId"
+                    select="com.solvd.airportmanagement.mapper.EmployeeMapper.findByAirportId"
                     column="id"/>
 
         <collection property="bookings"
                     ofType="com.solvd.airportmanagement.entity.Booking"
-                    select="com.solvd.airportmanagement.dao.mybatis.BookingMapper.findByAirportId"
+                    select="com.solvd.airportmanagement.mapper.BookingMapper.findByAirportId"
                     column="id"/>
 
     </resultMap>

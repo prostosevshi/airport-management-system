@@ -1,4 +1,4 @@
-package com.solvd.airportmanagement.dao.mybatis;
+package com.solvd.airportmanagement.mapper;
 
 import java.util.List;
 import java.util.Map;

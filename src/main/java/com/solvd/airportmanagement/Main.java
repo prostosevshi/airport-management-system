@@ -2,8 +2,8 @@ package com.solvd.airportmanagement;
 
 import com.solvd.airportmanagement.dao.AirportRepository;
 import com.solvd.airportmanagement.dao.EmployeeRepository;
-import com.solvd.airportmanagement.dao.impl.AirportRepositoryImpl;
-import com.solvd.airportmanagement.dao.impl.EmployeeRepositoryImpl;
+import com.solvd.airportmanagement.dao.jdbcimpl.AirportRepositoryImpl;
+import com.solvd.airportmanagement.dao.jdbcimpl.EmployeeRepositoryImpl;
 import com.solvd.airportmanagement.entity.Airport;
 import com.solvd.airportmanagement.entity.Employee;
 import com.solvd.airportmanagement.service.impl.AirportServiceImpl;

@@ -1,4 +1,4 @@
-<mapper namespace="com.solvd.airportmanagement.dao.mybatis.CardPaymentMapper">
+<mapper namespace="com.solvd.airportmanagement.mapper.CardPaymentMapper">
 
     <resultMap id="paymentMap" type="com.solvd.airportmanagement.entity.CardPayment">
 

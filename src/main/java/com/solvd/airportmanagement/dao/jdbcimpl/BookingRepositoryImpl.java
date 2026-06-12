@@ -1,31 +1,29 @@
-package com.solvd.airportmanagement.dao.impl;
+package com.solvd.airportmanagement.dao.jdbcimpl;
 
-import com.solvd.airportmanagement.dao.CardPaymentRepository;
-import com.solvd.airportmanagement.entity.CardPayment;
+import com.solvd.airportmanagement.dao.BookingRepository;
+import com.solvd.airportmanagement.entity.Booking;
 import com.solvd.airportmanagement.util.ConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardPaymentRepositoryImpl implements CardPaymentRepository {
+public class BookingRepositoryImpl implements BookingRepository {
 
     private final ConnectionPool connectionPool =
             ConnectionPool.getInstance();
 
     @Override
-    public void create(CardPayment cardPayment) {
+    public void create(Booking booking) {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "INSERT INTO card_payments (card_number, payment_number, payment_amount, payment_date) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO bookings (booking_number, booking_date) VALUES (?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setInt(1, cardPayment.getCardNumber());
-            ps.setInt(2, cardPayment.getPaymentNumber());
-            ps.setInt(3, cardPayment.getPaymentAmount());
-            ps.setDate(4, Date.valueOf(cardPayment.getPaymentDate()));
+            ps.setInt(1, booking.getBookingNumber());
+            ps.setDate(2, Date.valueOf(booking.getBookingDate()));
 
             ps.executeUpdate();
 
@@ -40,19 +38,17 @@ public class CardPaymentRepositoryImpl implements CardPaymentRepository {
     }
 
     @Override
-    public void update(CardPayment cardPayment) {
+    public void update(Booking booking) {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "UPDATE card_payments SET card_number=?, payment_number=?, payment_amount=?, payment_date=? WHERE id=?";
+        String sql = "UPDATE bookings SET booking_number=?, booking_date=? WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setInt(1, cardPayment.getCardNumber());
-            ps.setInt(2, cardPayment.getPaymentNumber());
-            ps.setInt(3, cardPayment.getPaymentAmount());
-            ps.setDate(4, Date.valueOf(cardPayment.getPaymentDate()));
-            ps.setLong(5, cardPayment.getId());
+            ps.setInt(1, booking.getBookingNumber());
+            ps.setDate(2, Date.valueOf(booking.getBookingDate()));
+            ps.setLong(3, booking.getId());
 
             ps.executeUpdate();
 
@@ -71,7 +67,7 @@ public class CardPaymentRepositoryImpl implements CardPaymentRepository {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "DELETE FROM card_payments WHERE id=?";
+        String sql = "DELETE FROM bookings WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -90,11 +86,11 @@ public class CardPaymentRepositoryImpl implements CardPaymentRepository {
     }
 
     @Override
-    public CardPayment findById(Long id) {
+    public Booking findById(Long id) {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "SELECT * FROM card_payments WHERE id=?";
+        String sql = "SELECT * FROM bookings WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -104,15 +100,13 @@ public class CardPaymentRepositoryImpl implements CardPaymentRepository {
 
             if (rs.next()) {
 
-                CardPayment cp = new CardPayment();
+                Booking booking = new Booking();
 
-                cp.setId(rs.getLong("id"));
-                cp.setCardNumber(rs.getInt("card_number"));
-                cp.setPaymentNumber(rs.getInt("payment_number"));
-                cp.setPaymentAmount(rs.getInt("payment_amount"));
-                cp.setPaymentDate(rs.getDate("payment_date").toLocalDate());
+                booking.setId(rs.getLong("id"));
+                booking.setBookingNumber(rs.getInt("booking_number"));
+                booking.setBookingDate(rs.getDate("booking_date").toLocalDate());
 
-                return cp;
+                return booking;
             }
 
             return null;
@@ -128,13 +122,13 @@ public class CardPaymentRepositoryImpl implements CardPaymentRepository {
     }
 
     @Override
-    public List<CardPayment> findAll() {
+    public List<Booking> findAll() {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "SELECT * FROM card_payments";
+        String sql = "SELECT * FROM bookings";
 
-        List<CardPayment> list = new ArrayList<>();
+        List<Booking> list = new ArrayList<>();
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -142,15 +136,13 @@ public class CardPaymentRepositoryImpl implements CardPaymentRepository {
 
             while (rs.next()) {
 
-                CardPayment cp = new CardPayment();
+                Booking booking = new Booking();
 
-                cp.setId(rs.getLong("id"));
-                cp.setCardNumber(rs.getInt("card_number"));
-                cp.setPaymentNumber(rs.getInt("payment_number"));
-                cp.setPaymentAmount(rs.getInt("payment_amount"));
-                cp.setPaymentDate(rs.getDate("payment_date").toLocalDate());
+                booking.setId(rs.getLong("id"));
+                booking.setBookingNumber(rs.getInt("booking_number"));
+                booking.setBookingDate(rs.getDate("booking_date").toLocalDate());
 
-                list.add(cp);
+                list.add(booking);
             }
 
             return list;

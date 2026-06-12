@@ -1,4 +1,4 @@
-package com.solvd.airportmanagement.dao.impl;
+package com.solvd.airportmanagement.dao.jdbcimpl;
 
 import com.solvd.airportmanagement.dao.ReportRepository;
 import com.solvd.airportmanagement.entity.*;

@@ -1,30 +1,32 @@
-package com.solvd.airportmanagement.dao.impl;
+package com.solvd.airportmanagement.dao.jdbcimpl;
 
-import com.solvd.airportmanagement.dao.GuestRepository;
-import com.solvd.airportmanagement.entity.Guest;
+import com.solvd.airportmanagement.dao.ProductRepository;
+import com.solvd.airportmanagement.entity.Product;
 import com.solvd.airportmanagement.util.ConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuestRepositoryImpl implements GuestRepository {
+public class ProductRepositoryImpl implements ProductRepository {
 
     private final ConnectionPool connectionPool =
             ConnectionPool.getInstance();
 
     @Override
-    public void create(Guest guest) {
+    public void create(Product product) {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "INSERT INTO guests (name, age, passport_number) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO products (name, calories, price, fresh, lunch_menu_id) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setString(1, guest.getName());
-            ps.setInt(2, guest.getAge());
-            ps.setInt(3, Integer.parseInt(guest.getPassportNumber()));
+            ps.setString(1, product.getName());
+            ps.setInt(2, product.getCalories());
+            ps.setBigDecimal(3, product.getPrice());
+            ps.setBoolean(4, product.isFresh());
+            ps.setLong(5, product.getLunchMenuId());
 
             ps.executeUpdate();
 
@@ -39,18 +41,20 @@ public class GuestRepositoryImpl implements GuestRepository {
     }
 
     @Override
-    public void update(Guest guest) {
+    public void update(Product product) {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "UPDATE guests SET name=?, age=?, passport_number=? WHERE id=?";
+        String sql = "UPDATE products SET name=?, calories=?, price=?, fresh=?, lunch_menu_id=? WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setString(1, guest.getName());
-            ps.setInt(2, guest.getAge());
-            ps.setInt(3, Integer.parseInt(guest.getPassportNumber()));
-            ps.setLong(4, guest.getId());
+            ps.setString(1, product.getName());
+            ps.setInt(2, product.getCalories());
+            ps.setBigDecimal(3, product.getPrice());
+            ps.setBoolean(4, product.isFresh());
+            ps.setLong(5, product.getLunchMenuId());
+            ps.setLong(6, product.getId());
 
             ps.executeUpdate();
 
@@ -69,7 +73,7 @@ public class GuestRepositoryImpl implements GuestRepository {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "DELETE FROM guests WHERE id=?";
+        String sql = "DELETE FROM products WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -88,11 +92,11 @@ public class GuestRepositoryImpl implements GuestRepository {
     }
 
     @Override
-    public Guest findById(Long id) {
+    public Product findById(Long id) {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "SELECT * FROM guests WHERE id=?";
+        String sql = "SELECT * FROM products WHERE id=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -102,16 +106,16 @@ public class GuestRepositoryImpl implements GuestRepository {
 
             if (rs.next()) {
 
-                Guest guest = new Guest();
+                Product product = new Product();
 
-                guest.setId(rs.getLong("id"));
-                guest.setName(rs.getString("name"));
-                guest.setAge(rs.getInt("age"));
-                guest.setPassportNumber(
-                        String.valueOf(rs.getInt("passport_number"))
-                );
+                product.setId(rs.getLong("id"));
+                product.setName(rs.getString("name"));
+                product.setCalories(rs.getInt("calories"));
+                product.setPrice(rs.getBigDecimal("price"));
+                product.setFresh(rs.getBoolean("fresh"));
+                product.setLunchMenuId(rs.getLong("lunch_menu_id"));
 
-                return guest;
+                return product;
             }
 
             return null;
@@ -127,13 +131,13 @@ public class GuestRepositoryImpl implements GuestRepository {
     }
 
     @Override
-    public List<Guest> findAll() {
+    public List<Product> findAll() {
 
         Connection connection = connectionPool.getConnection();
 
-        String sql = "SELECT * FROM guests";
+        String sql = "SELECT * FROM products";
 
-        List<Guest> list = new ArrayList<>();
+        List<Product> list = new ArrayList<>();
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -141,16 +145,16 @@ public class GuestRepositoryImpl implements GuestRepository {
 
             while (rs.next()) {
 
-                Guest guest = new Guest();
+                Product product = new Product();
 
-                guest.setId(rs.getLong("id"));
-                guest.setName(rs.getString("name"));
-                guest.setAge(rs.getInt("age"));
-                guest.setPassportNumber(
-                        String.valueOf(rs.getInt("passport_number"))
-                );
+                product.setId(rs.getLong("id"));
+                product.setName(rs.getString("name"));
+                product.setCalories(rs.getInt("calories"));
+                product.setPrice(rs.getBigDecimal("price"));
+                product.setFresh(rs.getBoolean("fresh"));
+                product.setLunchMenuId(rs.getLong("lunch_menu_id"));
 
-                list.add(guest);
+                list.add(product);
             }
 
             return list;

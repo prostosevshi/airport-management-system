@@ -7,8 +7,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
 public class GuestServiceTest {
 
     private GuestServiceImpl service;
@@ -25,7 +23,10 @@ public class GuestServiceTest {
 
         service.createGuest(g);
 
-        Assert.assertNotNull(service.getGuestById(1L));
+        Assert.assertNotNull(
+                service.getGuestById(1L),
+                "Guest should be found after creation"
+        );
     }
 
     @Test
@@ -39,7 +40,11 @@ public class GuestServiceTest {
         g.setName("New");
         service.updateGuest(g);
 
-        Assert.assertEquals(service.getGuestById(1L).getName(), "New");
+        Assert.assertEquals(
+                service.getGuestById(1L).getName(),
+                "New",
+                "Guest name should be updated"
+        );
     }
 
     @Test
@@ -50,7 +55,10 @@ public class GuestServiceTest {
         service.createGuest(g);
         service.deleteGuest(1L);
 
-        Assert.assertNull(service.getGuestById(1L));
+        Assert.assertNull(
+                service.getGuestById(1L),
+                "Guest should be deleted"
+        );
     }
 
     @Test
@@ -64,7 +72,11 @@ public class GuestServiceTest {
         service.createGuest(g1);
         service.createGuest(g2);
 
-        Assert.assertEquals(service.getAllGuests().size(), 2);
+        Assert.assertEquals(
+                service.getAllGuests().size(),
+                2,
+                "Service should return 2 guests"
+        );
     }
 
     @Test
@@ -74,6 +86,9 @@ public class GuestServiceTest {
 
         service.createGuest(g);
 
-        Assert.assertNotNull(service.getGuestById(1L));
+        Assert.assertNotNull(
+                service.getGuestById(1L),
+                "Guest should be found by id"
+        );
     }
 }

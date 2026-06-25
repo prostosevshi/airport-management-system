@@ -7,9 +7,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 public class CardPaymentServiceTest {
 
     private CardPaymentServiceImpl service;
@@ -26,7 +23,10 @@ public class CardPaymentServiceTest {
 
         service.createPayment(p);
 
-        Assert.assertNotNull(service.getPaymentById(1L));
+        Assert.assertNotNull(
+                service.getPaymentById(1L),
+                "Payment should be found after creation"
+        );
     }
 
     @Test
@@ -40,7 +40,11 @@ public class CardPaymentServiceTest {
         p.setPaymentAmount(200);
         service.updatePayment(p);
 
-        Assert.assertEquals(service.getPaymentById(1L).getPaymentAmount(), 200);
+        Assert.assertEquals(
+                service.getPaymentById(1L).getPaymentAmount(),
+                200,
+                "Payment amount should be updated"
+        );
     }
 
     @Test
@@ -51,7 +55,10 @@ public class CardPaymentServiceTest {
         service.createPayment(p);
         service.deletePayment(1L);
 
-        Assert.assertNull(service.getPaymentById(1L));
+        Assert.assertNull(
+                service.getPaymentById(1L),
+                "Payment should be deleted"
+        );
     }
 
     @Test
@@ -65,7 +72,11 @@ public class CardPaymentServiceTest {
         service.createPayment(p1);
         service.createPayment(p2);
 
-        Assert.assertEquals(service.getAllPayments().size(), 2);
+        Assert.assertEquals(
+                service.getAllPayments().size(),
+                2,
+                "Service should return 2 payments"
+        );
     }
 
     @Test
@@ -75,6 +86,10 @@ public class CardPaymentServiceTest {
 
         service.createPayment(p);
 
-        Assert.assertEquals(service.getPaymentById(1L).getId(), Long.valueOf(1));
+        Assert.assertEquals(
+                service.getPaymentById(1L).getId(),
+                Long.valueOf(1),
+                "Returned payment should have expected id"
+        );
     }
 }

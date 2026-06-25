@@ -66,7 +66,10 @@ public class EmployeeServiceTest {
         Employee result =
                 service.getEmployeeById(1L);
 
-        org.testng.Assert.assertNotNull(result);
+        org.testng.Assert.assertNotNull(
+                result,
+                "Employee should be created"
+        );
     }
 
     @Test
@@ -86,7 +89,9 @@ public class EmployeeServiceTest {
 
         org.testng.Assert.assertEquals(
                 result.getName(),
-                "Mike");
+                "Mike",
+                "Employee name should be Mike"
+        );
     }
 
     @Test
@@ -103,7 +108,9 @@ public class EmployeeServiceTest {
 
         org.testng.Assert.assertEquals(
                 service.getAllEmployees().size(),
-                2);
+                2,
+                "Service should return 2 employees"
+        );
     }
 
     @Test
@@ -118,7 +125,9 @@ public class EmployeeServiceTest {
         service.deleteEmployee(1L);
 
         org.testng.Assert.assertNull(
-                service.getEmployeeById(1L));
+                service.getEmployeeById(1L),
+                "Employee should be deleted"
+        );
     }
 
     @Test
@@ -140,17 +149,26 @@ public class EmployeeServiceTest {
 
         softAssert.assertEquals(
                 result.getName(),
-                "John");
+                "John",
+                "Employee name should be John"
+        );
 
         softAssert.assertEquals(
                 result.getAge(),
-                30);
+                30,
+                "Employee age should be 30"
+        );
 
         softAssert.assertEquals(
                 result.getSalary(),
-                1000);
+                1000,
+                "Employee salary should be 1000"
+        );
 
-        softAssert.assertNotNull(result);
+        softAssert.assertNotNull(
+                result,
+                "Employee should not be null"
+        );
 
         softAssert.assertAll();
     }

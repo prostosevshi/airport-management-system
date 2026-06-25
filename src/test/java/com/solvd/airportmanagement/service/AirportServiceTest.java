@@ -33,7 +33,9 @@ public class AirportServiceTest {
 
         service.createAirport(airport);
 
-        Assert.assertNotNull(airport.getId());
+        Assert.assertNotNull(
+                airport.getId(),
+                "Airport id should be generated after creation");
     }
 
     @Test
@@ -48,7 +50,10 @@ public class AirportServiceTest {
         service.createAirport(a1);
         service.createAirport(a2);
 
-        Assert.assertEquals(service.getAll().size(), 2);
+        Assert.assertEquals(
+                service.getAll().size(),
+                2,
+                "Service should return 2 airports");
     }
 
     @Test
@@ -66,11 +71,15 @@ public class AirportServiceTest {
 
         service.createAirportWithEmployees(airport);
 
-        Assert.assertNotNull(airport.getId());
+        Assert.assertNotNull(
+                airport.getId(),
+                "Airport should be created"
+        );
 
         Assert.assertEquals(
                 e1.getAirportId(),
-                airport.getId()
+                airport.getId(),
+                "Employee should be linked to created airport"
         );
     }
 
@@ -82,7 +91,10 @@ public class AirportServiceTest {
 
         service.createAirportWithEmployees(airport);
 
-        Assert.assertNotNull(airport.getId());
+        Assert.assertNotNull(
+                airport.getId(),
+                "Airport should be created even without employees"
+        );
     }
 
     @Test
@@ -99,6 +111,10 @@ public class AirportServiceTest {
 
         Airport result = service.getAll().get(0);
 
-        Assert.assertEquals(result.getAirportName(), "New");
+        Assert.assertEquals(
+                result.getAirportName(),
+                "New",
+                "Airport name should be updated"
+        );
     }
 }
